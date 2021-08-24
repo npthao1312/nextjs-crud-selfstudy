@@ -1,6 +1,6 @@
 ---
 title: 'Learning NextJS'
-date: '2021-24-08'
+date: '2021-08-24'
 ---
 
 I'm learning NextJS.
