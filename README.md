@@ -1,2 +1,2 @@
 # nextjs-crud-selfstudy
-This is my self-study repo for NextJS, Firebase.
+This is my self-study repo for NextJS.
