@@ -1,2 +1,1 @@
-# nextjs-crud-selfstudy
-This is my self-study repo for NextJS.
+This is a starter template for [Learn Next.js](https://nextjs.org/learn).
