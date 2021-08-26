@@ -15,3 +15,13 @@ export const getSinglePost = async (postId) => {
   const postData = snapshot.exists ? JSON.stringify(snapshot.data()) : null;
   return postData;
 };
+
+export const addPost = async (postData) => {
+  let response = await firebase.firestore().collection('posts').add(postData);
+  return response;
+};
+
+export const addCategory = async (data) => {
+  const response = await firebase.firestore().collection('categories').add(data);
+  return response;
+};
