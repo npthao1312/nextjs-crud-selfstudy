@@ -16,8 +16,15 @@ const Home = (props) => {
   const generatePostCard = (singlePost) => {
     return (
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-          <ul className={utilStyles.list}>
-            {singlePost.title}
+          <ul className={utilStyles.list}  key={singlePost.id}>
+            <Link href={`/posts/${singlePost.id}`}>
+              <a>{singlePost.title}</a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              {singlePost.categories}
+            </small>
+            <br />
             {singlePost.content}
           </ul>
         </section>
