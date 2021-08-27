@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { addCategory as addCategoryFb } from '../../../utils/db';
+import { addCategory as addCategoryFb } from '../../utils/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
