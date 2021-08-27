@@ -3,9 +3,11 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
-import { addPostApi } from '../../../utils/service';
+import { addPostApi } from '../../utils/service';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import Layout from '../../components/layout'
+import Head from 'next/head'
 
 const Index = () => {
   const router = useRouter();
@@ -39,7 +41,10 @@ const Index = () => {
   };
 
   return (
-    <>
+    <Layout>
+      <Head>
+        <title>Create Post</title>
+      </Head>
       <Container>
         <Formik
           initialValues={initialValues}
@@ -48,23 +53,35 @@ const Index = () => {
         >
           {(props) => (
             <Form>
-              <label htmlFor="title">Post Title</label>
-              <Field id="title" name="title" placeholder="Title">
+              <div className="form-group mb-3">
+                <label htmlFor="title">Post Title</label>
+                <Field id="title" name="title" placeholder="Title" className="form-control">
+                </Field>
+              </div>
+              <Field name="content">
+                {({ field, form }) => (
+                  <div className="form-group mb-3">
+                    <label htmlFor="content">Post Content</label>
+                    <textarea class="form-control" id="content" {...field} rows="5"/>
+                    {form.errors.description}
+                  </div>
+                )}
               </Field>
-              <label htmlFor="content">Post Content</label>
-              <Field id="content" name="content" placeholder="Content">
-              </Field>
-              <label htmlFor="category">Post Category</label>
-              <Field id="category" name="category" placeholder="Category">
-              </Field>
-              <Button type="submit">
-                Submit Post
-              </Button>
+              <div className="form-group mb-3">
+                <label htmlFor="category">Post Category</label>
+                <Field id="category" name="category" placeholder="Category" className="form-control">
+                </Field>
+              </div>
+              <div class="d-flex justify-content-center">
+                <Button type="submit">
+                  Submit Post
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>
       </Container>
-    </>
+    </Layout>
   );
 };
 

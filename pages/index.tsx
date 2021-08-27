@@ -1,11 +1,9 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
 import { getAllPost, getSinglePost } from '../utils/db';
 import Link from 'next/link'
 import Date from '../components/date'
-import { GetStaticProps } from 'next'
 import React from 'react';
 import { useRouter } from 'next/router';
 
@@ -15,19 +13,19 @@ const Home = (props) => {
 
   const generatePostCard = (singlePost) => {
     return (
-        <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-          <ul className={utilStyles.list}  key={singlePost.id}>
-            <Link href={`/posts/${singlePost.id}`}>
-              <a>{singlePost.title}</a>
-            </Link>
-            <br />
-            <small className={utilStyles.lightText}>
-              {singlePost.category}
-            </small>
-            <br />
-            {singlePost.content}
-          </ul>
-        </section>
+      <li className={utilStyles.listItem} key={singlePost.id}>
+        <Link href={`/posts/${singlePost.id}`}>
+          <a>{singlePost.title}</a>
+        </Link>
+        <br />
+        <small className={utilStyles.lightText}>
+          <Date dateString={singlePost.createdAt} />
+        </small>
+        <br />
+        <p className={utilStyles.lightText}>
+          {singlePost.category}
+        </p>
+      </li>
     )
   }
   return (
@@ -40,14 +38,14 @@ const Home = (props) => {
           Hello. I'm Thao. I'm learning NextJS.
         </p>
       </section>
-      <h2 className={utilStyles.headingLg}>Blog</h2>
-          {post.map((singlePost) => (
-            <div
-              key={singlePost.id}
-            >
-              {generatePostCard(singlePost)}
-            </div>
-          ))}
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={utilStyles.headingLg}>Blog</h2>
+            {post.map((singlePost) => (
+              <ul className={utilStyles.list}>
+                {generatePostCard(singlePost)}
+              </ul>
+            ))}
+      </section>
     </Layout>
   )
 }
