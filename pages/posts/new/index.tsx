@@ -4,6 +4,8 @@ import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 import { addPostApi } from '../../../utils/service';
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 const Index = () => {
   const router = useRouter();
@@ -11,13 +13,13 @@ const Index = () => {
   const initialValues = {
     title: '',
     content: '',
-    category: '',
+    categories: [],
   };
 
   const validationSchema = yup.object().shape({
     title: yup.string().required('Required'),
     content: yup.string().required('Required'),
-    category: yup.string().required('Required'),
+    category: yup.array().required('Required'),
   });
 
   const submitHandler = async (values, actions) => {
@@ -28,15 +30,11 @@ const Index = () => {
         updatedAt: new Date(),
         categories: values.categories.map((category) => {
           return {
-            ...category,
-            options: question.options.map((option) => {
-              return { ...option, optionId: uuidv4() };
-            }),
-            questionId: uuidv4(),
+            ...category
           };
         }),
       };
-      await addQuizApi(auth, values);
+      await addPostApi(values);
       router.push('/');
     } catch (error) {
       console.log('error', error);
@@ -47,16 +45,7 @@ const Index = () => {
 
   return (
     <>
-      <Navbar />
-      <Container
-        maxW="3xl"
-        mt={5}
-        mb={5}
-        borderWidth="1px"
-        borderRadius="lg"
-        p={6}
-        boxShadow="xl"
-      >
+      <Container>
         <Formik
           initialValues={initialValues}
           onSubmit={submitHandler}
@@ -66,46 +55,46 @@ const Index = () => {
             <Form>
               <Field name="title">
                 {({ field, form }) => (
-                  <FormControl
+                  <Form.Control
                     isInvalid={form.errors.title && form.touched.title}
                   >
-                    <FormLabel htmlFor="title" fontSize="xl">
-                      Quiz Title
-                    </FormLabel>
+                    <Form.Label htmlFor="title" fontSize="xl">
+                      Post Title
+                    </Form.Label>
                     <Input {...field} id="title" />
                     <FormErrorMessage>{form.errors.title}</FormErrorMessage>
-                  </FormControl>
+                  </Form.Control>
                 )}
               </Field>
               <Field name="content">
                 {({ field, form }) => (
-                  <FormControl
+                  <Form.Control
                     isInvalid={
                       form.errors.content && form.touched.content
                     }
                   >
-                    <FormLabel htmlFor="content" fontSize="xl" mt={4}>
-                      Quiz content
-                    </FormLabel>
+                    <Form.Label htmlFor="content" fontSize="xl" mt={4}>
+                      Post content
+                    </Form.Label>
                     <Textarea {...field} id="content" />
                     <FormErrorMessage>
                       {form.errors.content}
                     </FormErrorMessage>
-                  </FormControl>
+                  </Form.Control>
                 )}
               </Field>
-              <Field name="questions">
+              <Field name="categories">
                 {({ field }) => (
-                  <FormControl>
-                    <FormLabel htmlFor="questions" fontSize="xl" mt={4}>
-                      Enter your question data:
-                    </FormLabel>
+                  <Form.Control>
+                    <Form.Label htmlFor="categories" fontSize="xl" mt={4}>
+                      Enter your categories data:
+                    </Form.Label>
                     <Box ml={4}>
-                      <FieldArray {...field} name="questions" id="questions">
+                      <FieldArray {...field} name="categories" id="categories">
                         {(fieldArrayProps) => {
                           const { push, remove, form } = fieldArrayProps;
                           const { values, errors, touched } = form;
-                          const { questions } = values;
+                          const { categories } = values;
                           const errorHandler = (name) => {
                             const error = getIn(errors, name);
                             const touch = getIn(touched, name);
@@ -113,84 +102,40 @@ const Index = () => {
                           };
                           return (
                             <div>
-                              {questions.map((_question, index) => {
+                              {categories.map((_question, index) => {
                                 return (
                                   <Flex key={index} direction="column">
-                                    <FormControl
+                                    <Form.Control
                                       isInvalid={errorHandler(
-                                        `questions[${index}][title]`
+                                        `categories[${index}][title]`
                                       )}
                                     >
-                                      <FormLabel
-                                        htmlFor={`questions[${index}][title]`}
+                                      <Form.Label
+                                        htmlFor={`categories[${index}][title]`}
                                       >
                                         Question Title:
-                                      </FormLabel>
+                                      </Form.Label>
                                       <Input
-                                        name={`questions[${index}][title]`}
+                                        name={`categories[${index}][title]`}
                                         as={Field}
                                         mb={
                                           !errorHandler(
-                                            `questions[${index}][title]`
+                                            `categories[${index}][title]`
                                           ) && 3
                                         }
                                       />
                                       <FormErrorMessage>
                                         {errorHandler(
-                                          `questions[${index}][title]`
+                                          `categories[${index}][title]`
                                         )}
                                       </FormErrorMessage>
-                                    </FormControl>
+                                    </Form.Control>
                                     <SimpleGrid
                                       minChildWidth="300px"
                                       spacing="10px"
                                       mb={{ base: 4 }}
                                     >
-                                      {optionData.map((option, subIndex) => (
-                                        <FormControl
-                                          mb={2}
-                                          key={subIndex}
-                                          isInvalid={errorHandler(
-                                            `questions[${index}][options][${subIndex}].title`
-                                          )}
-                                        >
-                                          <FormLabel
-                                            htmlFor={`questions[${index}][options][${subIndex}].title`}
-                                          >
-                                            {option.label}
-                                          </FormLabel>
-                                          <Input
-                                            name={`questions[${index}][options][${subIndex}].title`}
-                                            as={Field}
-                                          />
-                                          <FormErrorMessage>
-                                            {errorHandler(
-                                              `questions[${index}][options][${subIndex}].title`
-                                            )}
-                                          </FormErrorMessage>
-                                        </FormControl>
-                                      ))}
                                     </SimpleGrid>
-                                    <Box>
-                                      <Text mb="8px">Correct Answer:</Text>
-                                      <Field
-                                        component="select"
-                                        name={`questions[${index}][answer]`}
-                                        style={{
-                                          width: '100%',
-                                          padding: '10px',
-                                        }}
-                                      >
-                                        {answerOption.map((value, key) => (
-                                          <option
-                                            value={value.answer}
-                                            key={key}
-                                          >
-                                            {value.label}
-                                          </option>
-                                        ))}
-                                      </Field>
-                                    </Box>
                                     <Flex
                                       direction="row"
                                       justify="flex-end"
@@ -199,17 +144,17 @@ const Index = () => {
                                       {index > 0 && (
                                         <IconButton
                                           onClick={() => remove(index)}
-                                          aria-label="Remove Question"
+                                          aria-label="Remove Category"
                                           icon={<MinusIcon />}
                                           variant="ghost"
                                         >
                                           -
                                         </IconButton>
                                       )}
-                                      {index === questions.length - 1 && (
+                                      {index === categories.length - 1 && (
                                         <IconButton
-                                          onClick={() => push(questionsData)}
-                                          aria-label="Add Question"
+                                          onClick={() => push(categoriesData)}
+                                          aria-label="Add Category"
                                           icon={<AddIcon />}
                                           variant="ghost"
                                         >
@@ -217,7 +162,7 @@ const Index = () => {
                                         </IconButton>
                                       )}
                                     </Flex>
-                                    {index !== questions.length - 1 && (
+                                    {index !== categories.length - 1 && (
                                       <Divider
                                         mt={2}
                                         mb={4}
@@ -234,19 +179,17 @@ const Index = () => {
                         }}
                       </FieldArray>
                     </Box>
-                  </FormControl>
+                  </Form.Control>
                 )}
               </Field>
-              <Center>
-                <Button
-                  colorScheme="green"
-                  isLoading={props.isSubmitting}
-                  type="submit"
-                  disabled={!(props.isValid && props.dirty)}
-                >
-                  Submit Quiz
-                </Button>
-              </Center>
+              <Button
+                colorScheme="green"
+                isLoading={props.isSubmitting}
+                type="submit"
+                disabled={!(props.isValid && props.dirty)}
+              >
+                Submit Post
+              </Button>
             </Form>
           )}
         </Formik>
