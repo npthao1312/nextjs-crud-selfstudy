@@ -22,7 +22,7 @@ const Home = (props) => {
             </Link>
             <br />
             <small className={utilStyles.lightText}>
-              {singlePost.categories}
+              {singlePost.category}
             </small>
             <br />
             {singlePost.content}

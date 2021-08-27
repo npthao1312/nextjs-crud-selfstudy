@@ -13,13 +13,13 @@ const Index = () => {
   const initialValues = {
     title: '',
     content: '',
-    categories: [],
+    category: '',
   };
 
   const validationSchema = yup.object().shape({
     title: yup.string().required('Required'),
     content: yup.string().required('Required'),
-    category: yup.array().required('Required'),
+    category: yup.string().required('Required'),
   });
 
   const submitHandler = async (values, actions) => {
@@ -28,11 +28,6 @@ const Index = () => {
         ...values,
         createdAt: new Date(),
         updatedAt: new Date(),
-        categories: values.categories.map((category) => {
-          return {
-            ...category
-          };
-        }),
       };
       await addPostApi(values);
       router.push('/');
@@ -53,141 +48,16 @@ const Index = () => {
         >
           {(props) => (
             <Form>
-              <Field name="title">
-                {({ field, form }) => (
-                  <Form.Control
-                    isInvalid={form.errors.title && form.touched.title}
-                  >
-                    <Form.Label htmlFor="title" fontSize="xl">
-                      Post Title
-                    </Form.Label>
-                    <Input {...field} id="title" />
-                    <FormErrorMessage>{form.errors.title}</FormErrorMessage>
-                  </Form.Control>
-                )}
+              <label htmlFor="title">Post Title</label>
+              <Field id="title" name="title" placeholder="Title">
               </Field>
-              <Field name="content">
-                {({ field, form }) => (
-                  <Form.Control
-                    isInvalid={
-                      form.errors.content && form.touched.content
-                    }
-                  >
-                    <Form.Label htmlFor="content" fontSize="xl" mt={4}>
-                      Post content
-                    </Form.Label>
-                    <Textarea {...field} id="content" />
-                    <FormErrorMessage>
-                      {form.errors.content}
-                    </FormErrorMessage>
-                  </Form.Control>
-                )}
+              <label htmlFor="content">Post Content</label>
+              <Field id="content" name="content" placeholder="Content">
               </Field>
-              <Field name="categories">
-                {({ field }) => (
-                  <Form.Control>
-                    <Form.Label htmlFor="categories" fontSize="xl" mt={4}>
-                      Enter your categories data:
-                    </Form.Label>
-                    <Box ml={4}>
-                      <FieldArray {...field} name="categories" id="categories">
-                        {(fieldArrayProps) => {
-                          const { push, remove, form } = fieldArrayProps;
-                          const { values, errors, touched } = form;
-                          const { categories } = values;
-                          const errorHandler = (name) => {
-                            const error = getIn(errors, name);
-                            const touch = getIn(touched, name);
-                            return touch && error ? error : null;
-                          };
-                          return (
-                            <div>
-                              {categories.map((_question, index) => {
-                                return (
-                                  <Flex key={index} direction="column">
-                                    <Form.Control
-                                      isInvalid={errorHandler(
-                                        `categories[${index}][title]`
-                                      )}
-                                    >
-                                      <Form.Label
-                                        htmlFor={`categories[${index}][title]`}
-                                      >
-                                        Question Title:
-                                      </Form.Label>
-                                      <Input
-                                        name={`categories[${index}][title]`}
-                                        as={Field}
-                                        mb={
-                                          !errorHandler(
-                                            `categories[${index}][title]`
-                                          ) && 3
-                                        }
-                                      />
-                                      <FormErrorMessage>
-                                        {errorHandler(
-                                          `categories[${index}][title]`
-                                        )}
-                                      </FormErrorMessage>
-                                    </Form.Control>
-                                    <SimpleGrid
-                                      minChildWidth="300px"
-                                      spacing="10px"
-                                      mb={{ base: 4 }}
-                                    >
-                                    </SimpleGrid>
-                                    <Flex
-                                      direction="row"
-                                      justify="flex-end"
-                                      mt={4}
-                                    >
-                                      {index > 0 && (
-                                        <IconButton
-                                          onClick={() => remove(index)}
-                                          aria-label="Remove Category"
-                                          icon={<MinusIcon />}
-                                          variant="ghost"
-                                        >
-                                          -
-                                        </IconButton>
-                                      )}
-                                      {index === categories.length - 1 && (
-                                        <IconButton
-                                          onClick={() => push(categoriesData)}
-                                          aria-label="Add Category"
-                                          icon={<AddIcon />}
-                                          variant="ghost"
-                                        >
-                                          +
-                                        </IconButton>
-                                      )}
-                                    </Flex>
-                                    {index !== categories.length - 1 && (
-                                      <Divider
-                                        mt={2}
-                                        mb={4}
-                                        css={{
-                                          boxShadow: '1px 1px #888888',
-                                        }}
-                                      />
-                                    )}
-                                  </Flex>
-                                );
-                              })}
-                            </div>
-                          );
-                        }}
-                      </FieldArray>
-                    </Box>
-                  </Form.Control>
-                )}
+              <label htmlFor="category">Post Category</label>
+              <Field id="category" name="category" placeholder="Category">
               </Field>
-              <Button
-                colorScheme="green"
-                isLoading={props.isSubmitting}
-                type="submit"
-                disabled={!(props.isValid && props.dirty)}
-              >
+              <Button type="submit">
                 Submit Post
               </Button>
             </Form>
