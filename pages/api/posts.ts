@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { addPost as addPostFb } from '../../utils/db';
+import { updatePost as updatePostFb } from '../../utils/db';
+import { deletePost as deletePostFb } from '../../utils/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
@@ -25,3 +27,31 @@ const addPost = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ status: false, message: 'Something went wrong' });
   }
 };
+
+// const deletePost = async (req: NextApiRequest, res: NextApiResponse) => {
+//   try {
+//     const postId = { ...req.body };
+//     await deletePostFb(postId);
+//     return res
+//       .status(200)
+//       .json({ status: true, message: 'Post deleted successfully...' });
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .json({ status: false, message: 'Something went wrong' });
+//   }
+// };
+
+// const updatePost = async (req: NextApiRequest, res: NextApiResponse) => {
+//   try {
+//     const postData = { ...req.body };
+//     await updatePostFb(postData);
+//     return res
+//       .status(200)
+//       .json({ status: true, message: 'Post updated successfully...' });
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .json({ status: false, message: 'Something went wrong' });
+//   }
+// };

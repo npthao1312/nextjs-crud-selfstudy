@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
-import { addPostApi } from '../../utils/service';
+import { addPostApi } from '../../../utils/service';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import Layout from '../../components/layout'
+import Layout from '../../../components/layout'
 import Head from 'next/head'
 
-const Index = () => {
+const NewPost = () => {
   const router = useRouter();
 
   const initialValues = {
@@ -85,4 +85,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default NewPost;

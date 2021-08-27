@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import { getAllPost, getSinglePost } from '../utils/db';
+import { getAllPosts, getPost } from '../utils/db';
 import Link from 'next/link'
 import Date from '../components/date'
 import React from 'react';
@@ -51,7 +51,7 @@ const Home = (props) => {
 }
 
 export async function getServerSideProps(_context) {
-  const post = await getAllPost();
+  const post = await getAllPosts();
   const data = post.map((singlePost: any) => {
     return { ...singlePost};
   });

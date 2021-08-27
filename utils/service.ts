@@ -9,6 +9,15 @@ export const addPostApi = async (values) => {
   }
 };
 
+// export const deletePostApi = async (values) => {
+//   try {
+//     const resp = await axios.delete('/api/post', values);
+//     return resp;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 export const addCategoryApi = async (values) => {
   try {
     const resp = await axios.post(

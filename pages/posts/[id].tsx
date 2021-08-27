@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getSinglePost } from '../../utils/db';
+import { getPost } from '../../utils/db';
 import Layout from '../../components/layout'
 import Head from 'next/head'
 import Date from '../../components/date'
@@ -39,7 +39,7 @@ const SinglePost = (props) => {
 
 export async function getServerSideProps(context: NextPageContext) {
   const postId = context.query.id;
-  const post = await getSinglePost(postId);
+  const post = await getPost(postId);
   return { props: { post: post, postId } };
 }
 
