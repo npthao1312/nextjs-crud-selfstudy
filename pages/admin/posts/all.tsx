@@ -1,20 +1,20 @@
-import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getAllPosts } from '../utils/db';
-import Link from 'next/link'
-import Date from '../components/date'
-import React from 'react';
 import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { getAllPosts } from '../../../utils/db';
+import Button from "react-bootstrap/Button";
+import Layout from '../../../components/layout'
+import Head from 'next/head'
+import utilStyles from '../../../styles/utils.module.css'
+import Link from 'next/link'
 
-const Home = (props) => {
+const AllPosts = (props) => {
   const post = JSON.parse(props.post);
   const router = useRouter();
 
   const generatePostCard = (singlePost) => {
     return (
       <li className={utilStyles.listItem} key={singlePost.id}>
-        <Link href={`/posts/${singlePost.id}`}>
+        <Link href={`/admin/posts/${singlePost.id}`}>
           <a>{singlePost.title}</a>
         </Link>
         <br />
@@ -28,16 +28,12 @@ const Home = (props) => {
       </li>
     )
   }
+
   return (
-    <Layout home>
+    <Layout>
       <Head>
-        <title>{siteTitle}</title>
+        <title>Manage Posts</title>
       </Head>
-      <section className={utilStyles.headingMd}>
-        <p>
-          Hello. I'm Thao. I'm learning NextJS.
-        </p>
-      </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
             {post.map((singlePost) => (
@@ -47,8 +43,9 @@ const Home = (props) => {
             ))}
       </section>
     </Layout>
-  )
-}
+  );
+};
+
 
 export async function getServerSideProps(_context) {
   const post = await getAllPosts();
@@ -58,4 +55,4 @@ export async function getServerSideProps(_context) {
   return { props: { post: JSON.stringify(data) } };
 }
 
-export default Home;
+export default AllPosts;

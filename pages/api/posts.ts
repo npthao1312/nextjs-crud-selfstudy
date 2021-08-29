@@ -8,6 +8,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     case 'POST':
       await addPost(req, res);
       break;
+    case 'PUT':
+      await updatePost(req, res);
+      break;
     default:
       res.status(405).json({ status: false, message: 'Method Not found' });
       break;
@@ -28,30 +31,16 @@ const addPost = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-// const deletePost = async (req: NextApiRequest, res: NextApiResponse) => {
-//   try {
-//     const postId = { ...req.body };
-//     await deletePostFb(postId);
-//     return res
-//       .status(200)
-//       .json({ status: true, message: 'Post deleted successfully...' });
-//   } catch (error) {
-//     return res
-//       .status(500)
-//       .json({ status: false, message: 'Something went wrong' });
-//   }
-// };
-
-// const updatePost = async (req: NextApiRequest, res: NextApiResponse) => {
-//   try {
-//     const postData = { ...req.body };
-//     await updatePostFb(postData);
-//     return res
-//       .status(200)
-//       .json({ status: true, message: 'Post updated successfully...' });
-//   } catch (error) {
-//     return res
-//       .status(500)
-//       .json({ status: false, message: 'Something went wrong' });
-//   }
-// };
+const updatePost = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const postData = { ...req.body };
+    await updatePostFb(req.query.id, postData);
+    return res
+      .status(200)
+      .json({ status: true, message: 'Post updated successfully...' });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: false, message: 'Something went wrong' });
+  }
+};
