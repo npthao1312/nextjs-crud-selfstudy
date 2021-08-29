@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getPost } from '../../../utils/db';
+import { getPost, updatePost } from '../../../utils/db';
 import { editPostApi } from '../../../utils/service';
 import Layout from '../../../components/layout'
 import Head from 'next/head'
@@ -13,12 +13,6 @@ import Button from "react-bootstrap/Button";
 const EditPost = (post, onSubmit) => {
   const router = useRouter();
 
-  const initialValues = {
-    title: '',
-    content: '',
-    category: '',
-  };
-
   return (
     <Layout>
       <Head>
@@ -26,7 +20,7 @@ const EditPost = (post, onSubmit) => {
       </Head>
       <Container>
         <Formik
-          initialValues={initialValues}
+          initialValues={{}}
           onSubmit={onSubmit}
         >
           {(props) => (
@@ -73,8 +67,9 @@ const EditDeletePost = (props) => {
         ...values,
         updatedAt: new Date(),
       };
-      await editPostApi(props.postId, values);
-      router.push(`/posts/${props.quizId}`);
+      const resp = await updatePost(props.postId, values);
+      console.log(resp);
+      router.push(`/posts/${props.postId}`);
     } catch (error) {
       console.log('error', error);
     } finally {

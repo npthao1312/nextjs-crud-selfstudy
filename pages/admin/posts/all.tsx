@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getAllPosts } from '../../../utils/db';
+import { getAllPosts, deletePost } from '../../../utils/db';
 import Button from "react-bootstrap/Button";
 import Layout from '../../../components/layout'
 import Head from 'next/head'
