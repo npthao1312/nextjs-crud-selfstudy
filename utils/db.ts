@@ -37,8 +37,7 @@ export const deletePost = async (postId) => {
     .collection('posts')
     .doc(String(postId))
     .delete();
-  const postData = snapshot.exists ? JSON.stringify(snapshot.data()) : null;
-  return postData;
+  return postId;
 };
 
 export const updatePost = async (postId, updatedPost) => {
@@ -47,8 +46,7 @@ export const updatePost = async (postId, updatedPost) => {
     .collection('posts')
     .doc(String(postId))
     .update(updatedPost);
-  const postData = snapshot.exists ? JSON.stringify(snapshot.data()) : null;
-  return postData;
+  return updatedPost;
 };
 
 export const addCategory = async (data) => {

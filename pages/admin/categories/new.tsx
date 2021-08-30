@@ -3,25 +3,21 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
-import { addPostApi } from '../../../utils/service';
+import { addCategoryApi } from '../../../utils/service';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Layout from '../../../components/layout'
 import Head from 'next/head'
 
-const NewPost = () => {
+const NewCategory = () => {
   const router = useRouter();
 
   const initialValues = {
-    title: '',
     content: '',
-    category: '',
   };
 
   const validationSchema = yup.object().shape({
-    title: yup.string().required('Required'),
     content: yup.string().required('Required'),
-    category: yup.string().required('Required'),
   });
 
   const submitHandler = async (values, actions) => {
@@ -31,7 +27,7 @@ const NewPost = () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-      await addPostApi(values);
+      await addCategoryApi(values);
       router.push('/');
     } catch (error) {
       console.log('error', error);
@@ -41,9 +37,9 @@ const NewPost = () => {
   };
 
   return (
-    <Layout admin>
+    <Layout>
       <Head>
-        <title>Create Post</title>
+        <title>Create Category</title>
       </Head>
       <Container>
         <Formik
@@ -53,28 +49,18 @@ const NewPost = () => {
         >
           {(props) => (
             <Form>
-              <div className="form-group mb-3">
-                <label htmlFor="title">Post Title</label>
-                <Field id="title" name="title" placeholder="Title" className="form-control">
-                </Field>
-              </div>
               <Field name="content">
                 {({ field, form }) => (
                   <div className="form-group mb-3">
-                    <label htmlFor="content">Post Content</label>
+                    <label htmlFor="content">Category Content</label>
                     <textarea class="form-control" id="content" {...field} rows="5"/>
                     {form.errors.description}
                   </div>
                 )}
               </Field>
-              <div className="form-group mb-3">
-                <label htmlFor="category">Post Category</label>
-                <Field id="category" name="category" placeholder="Category" className="form-control">
-                </Field>
-              </div>
               <div class="d-flex justify-content-center">
                 <Button type="submit">
-                  Submit Post
+                  Submit Category
                 </Button>
               </div>
             </Form>
@@ -85,4 +71,4 @@ const NewPost = () => {
   );
 };
 
-export default NewPost;
+export default NewCategory;

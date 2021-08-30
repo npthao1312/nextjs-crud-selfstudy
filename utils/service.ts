@@ -29,9 +29,11 @@ export const deletePostApi = async (postId) => {
 
 export const addCategoryApi = async (values) => {
   try {
+    const categoryLowerCase = values.toLowerCase();
     const resp = await axios.post(
       `/api/category`,
       {
+        id: categoryLowerCase,
         content: values,
         createdAt: new Date(),
         updatedAt: new Date(),

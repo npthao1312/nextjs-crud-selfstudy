@@ -20,7 +20,7 @@ const EditPost = (post, onEdit, onDelete) => {
   };
 
   return (
-    <Layout>
+    <Layout admin>
       <Head>
         <title>Edit {post.title}</title>
       </Head>

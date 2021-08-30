@@ -9,10 +9,12 @@ export const siteTitle = 'Next.js Blog Spot'
 
 export default function Layout({
   children,
-  home
+  home,
+  admin
 }: {
   children: React.ReactNode
   home?: boolean
+  admin?: boolean
 }) {
   return (
     <div className={styles.container}>
@@ -71,6 +73,13 @@ export default function Layout({
         <div className={styles.backToHome}>
           <Link href="/">
             <a>← Back to home</a>
+          </Link>
+        </div>
+      )}
+      {admin && (
+        <div className={styles.backToHome}>
+          <Link href="/admin/posts/all">
+            <a>← Back to Admin Board</a>
           </Link>
         </div>
       )}

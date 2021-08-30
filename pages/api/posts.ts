@@ -8,9 +8,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     case 'POST':
       await addPost(req, res);
       break;
-    case 'PUT':
-      await updatePost(req, res);
-      break;
     default:
       res.status(405).json({ status: false, message: 'Method Not found' });
       break;

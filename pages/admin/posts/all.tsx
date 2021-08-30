@@ -35,7 +35,7 @@ const AllPosts = (props) => {
   }
 
   return (
-    <Layout>
+    <Layout admin>
       <Head>
         <title>Manage Posts</title>
       </Head>
