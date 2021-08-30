@@ -13,6 +13,12 @@ import Button from "react-bootstrap/Button";
 const EditPost = (post, onEdit, onDelete) => {
   const router = useRouter();
 
+  const initialValues = {
+    title: post.title,
+    content: post.content,
+    category: post.category,
+  };
+
   return (
     <Layout>
       <Head>
@@ -20,7 +26,7 @@ const EditPost = (post, onEdit, onDelete) => {
       </Head>
       <Container>
         <Formik
-          initialValues={{}}
+          initialValues={initialValues}
           onSubmit={onEdit}
         >
           {(props) => (
@@ -72,7 +78,7 @@ const EditDeletePost = (props) => {
       };
       const resp = await updatePost(props.postId, values);
       console.log(resp);
-      router.push(`/posts/${props.postId}`);
+      router.push("/");
     } catch (error) {
       console.log('error', error);
     } finally {
@@ -84,7 +90,7 @@ const EditDeletePost = (props) => {
     try {
       const resp = await deletePost(props.postId);
       console.log(resp);
-      router.push(`/`);
+      router.push("/");
     } catch (error) {
       console.log('error', error);
     }

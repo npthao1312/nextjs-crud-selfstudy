@@ -21,7 +21,7 @@ const Home = (props) => {
         </small>
         <br />
         <Link href={`/categories/${singlePost.category}`}>
-          <a>{singlePost.category}</a>
+          <span class="badge rounded-pill bg-secondary"><a>{singlePost.category}</a></span>          
         </Link>
       </li>
     )

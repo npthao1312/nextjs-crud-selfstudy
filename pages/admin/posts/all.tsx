@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { getAllPosts, deletePost } from '../../../utils/db';
-import Button from "react-bootstrap/Button";
 import Layout from '../../../components/layout'
 import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
@@ -14,7 +13,7 @@ const AllPosts = (props) => {
   const generatePostCard = (singlePost) => {
     return (
       <li className={utilStyles.listItem} key={singlePost.id}>
-        <Link href={`/admin/posts/${singlePost.id}`}>
+        <Link href={`/posts/${singlePost.id}`}>
           <a>{singlePost.title}</a>
         </Link>
         <br />
@@ -22,9 +21,15 @@ const AllPosts = (props) => {
           <Date dateString={singlePost.createdAt} />
         </small>
         <br />
-        <p className={utilStyles.lightText}>
-          {singlePost.category}
-        </p>
+        <Link href={`/categories/${singlePost.category}`}>
+          <span class="badge rounded-pill bg-secondary my-2"><a>{singlePost.category}</a></span>
+        </Link>
+        <br />
+        <button type="button" class="btn btn-primary">
+          <Link href={`/admin/posts/${singlePost.id}`}>
+            <a className="text-white text-decoration-none">Edit</a>
+          </Link>
+        </button>
       </li>
     )
   }
@@ -35,7 +40,7 @@ const AllPosts = (props) => {
         <title>Manage Posts</title>
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
+        <h2 className={utilStyles.headingLg}>Admin Management</h2>
             {post.map((singlePost) => (
               <ul className={utilStyles.list}>
                 {generatePostCard(singlePost)}

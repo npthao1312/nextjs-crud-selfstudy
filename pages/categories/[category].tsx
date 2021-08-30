@@ -20,9 +20,9 @@ const ShowPostsByCategory = (props) => {
           <Date dateString={singlePost.createdAt} />
         </small>
         <br />
-        <p className={utilStyles.lightText}>
-          {singlePost.category}
-        </p>
+        <Link href={`/categories/${singlePost.category}`}>
+          <span class="badge rounded-pill bg-secondary"><a>{singlePost.category}</a></span>
+        </Link>
       </li>
     )
   }
