@@ -1,12 +1,12 @@
 import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getAllPosts } from '../utils/db';
+import Layout, { siteTitle } from '../../components/layout'
+import utilStyles from '../../styles/utils.module.css'
+import { getPostsByCategory } from '../../utils/db';
 import Link from 'next/link'
-import Date from '../components/date'
+import Date from '../../components/date'
 import React from 'react';
 
-const Home = (props) => {
+const ShowPostsByCategory = (props) => {
   const post = JSON.parse(props.post);
 
   const generatePostCard = (singlePost) => {
@@ -20,14 +20,14 @@ const Home = (props) => {
           <Date dateString={singlePost.createdAt} />
         </small>
         <br />
-        <Link href={`/categories/${singlePost.category}`}>
-          <a>{singlePost.category}</a>
-        </Link>
+        <p className={utilStyles.lightText}>
+          {singlePost.category}
+        </p>
       </li>
     )
   }
   return (
-    <Layout home>
+    <Layout>
       <Head>
         <title>{siteTitle}</title>
       </Head>
@@ -48,12 +48,13 @@ const Home = (props) => {
   )
 }
 
-export async function getServerSideProps(_context) {
-  const post = await getAllPosts();
+export async function getServerSideProps(context: NextPageContext) {
+  const postCategory = context.query.category;
+  const post = await getPostsByCategory(postCategory);
   const data = post.map((singlePost: any) => {
     return { ...singlePost};
   });
   return { props: { post: JSON.stringify(data) } };
 }
 
-export default Home;
+export default ShowPostsByCategory;

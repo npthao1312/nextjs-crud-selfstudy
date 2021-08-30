@@ -1,7 +1,7 @@
 import firebase from '../lib/firebase';
 
 export const getAllPosts = async () => {
-  const snapshot = await firebase.firestore().collection('posts').get();
+  const snapshot = await firebase.firestore().collection('posts').orderBy('createdAt', 'desc').get();
   const post = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   return post;
 };
@@ -20,10 +20,10 @@ export const getPostsByCategory = async (category) => {
   const snapshot = await firebase
     .firestore()
     .collection('posts')
-    .where('category', 'in', category)
+    .where('category', '==', category)
     .get();
-  const postData = snapshot.exists ? JSON.stringify(snapshot.data()) : null;
-  return postData;
+  const post = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return post;
 };
 
 export const addPost = async (postData) => {
