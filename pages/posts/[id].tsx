@@ -6,6 +6,8 @@ import Layout from '../../components/layout'
 import Head from 'next/head'
 import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
+import ReactMarkdown from "react-markdown";
+import Link from 'next/link'
 
 const ShowPost = (post) => {
   return (
@@ -18,10 +20,10 @@ const ShowPost = (post) => {
         <div className={utilStyles.lightText}>
           <Date dateString={post.createdAt} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: post.content }} />
-        <div className={utilStyles.lightText}>
-          {post.category}
-        </div>
+        <ReactMarkdown>{post.content}</ReactMarkdown>
+        <Link href={`/categories/${post.category}`}>
+          <span class="badge rounded-pill bg-secondary my-2"><a>{post.category}</a></span>
+        </Link>
       </article>
     </Layout>
   );

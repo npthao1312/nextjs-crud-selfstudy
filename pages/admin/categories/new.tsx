@@ -1,7 +1,6 @@
 import { Field, FieldArray, Form, Formik, getIn } from 'formik';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 import { addCategoryApi } from '../../../utils/service';
 import Container from "react-bootstrap/Container";
