@@ -13,7 +13,7 @@ const AllPosts = (props) => {
   const generatePostCard = (singlePost) => {
     return (
       <li className={utilStyles.listItem} key={singlePost.id}>
-        <Link href={`/posts/${singlePost.id}`}>
+        <Link href={`/admin/posts/${singlePost.id}`}>
           <a>{singlePost.title}</a>
         </Link>
         <br />
@@ -24,12 +24,6 @@ const AllPosts = (props) => {
         <Link href={`/categories/${singlePost.category}`}>
           <span class="badge rounded-pill bg-secondary my-2"><a>{singlePost.category}</a></span>
         </Link>
-        <br />
-        <button type="button" class="btn btn-primary">
-          <Link href={`/admin/posts/${singlePost.id}`}>
-            <a className="text-white text-decoration-none">Edit</a>
-          </Link>
-        </button>
       </li>
     )
   }
