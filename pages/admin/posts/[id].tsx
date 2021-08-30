@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getPost, updatePost } from '../../../utils/db';
+import { getPost, updatePost, deletePost } from '../../../utils/db';
 import { editPostApi } from '../../../utils/service';
 import Layout from '../../../components/layout'
 import Head from 'next/head'
@@ -10,7 +10,7 @@ import { Field, Form, Formik } from 'formik';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
-const EditPost = (post, onSubmit) => {
+const EditPost = (post, onEdit, onDelete) => {
   const router = useRouter();
 
   return (
@@ -21,7 +21,7 @@ const EditPost = (post, onSubmit) => {
       <Container>
         <Formik
           initialValues={{}}
-          onSubmit={onSubmit}
+          onSubmit={onEdit}
         >
           {(props) => (
             <Form>
@@ -44,9 +44,12 @@ const EditPost = (post, onSubmit) => {
                 <Field id="category" name="category" placeholder={post.category} className="form-control">
                 </Field>
               </div>
-              <div class="d-flex justify-content-center">
+              <div className="d-flex justify-content-center mt-5">
                 <Button type="submit">
                   Edit Post
+                </Button>
+                <Button className="ms-3" type="button" onClick={onDelete}  variant="danger">
+                  Delete Post
                 </Button>
               </div>
             </Form>
@@ -61,7 +64,7 @@ const EditDeletePost = (props) => {
   const router = useRouter();
   const post = JSON.parse(props.post);
 
-  const onSubmit = async (values, actions) => {
+  const onEdit = async (values, actions) => {
     try {
       values = {
         ...values,
@@ -77,9 +80,19 @@ const EditDeletePost = (props) => {
     }
   };
 
+  const onDelete = async () => {
+    try {
+      const resp = await deletePost(props.postId);
+      console.log(resp);
+      router.push(`/`);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   return (
     <>
-      {post && EditPost(post, onSubmit)}
+      {post && EditPost(post, onEdit, onDelete)}
     </>
   );
 };
