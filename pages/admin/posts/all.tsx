@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { getAllPosts, deletePost } from '../../../utils/db';
 import Layout from '../../../components/layout'
@@ -8,7 +7,6 @@ import Link from 'next/link'
 
 const AllPosts = (props) => {
   const post = JSON.parse(props.post);
-  const router = useRouter();
 
   const generatePostCard = (singlePost) => {
     return (

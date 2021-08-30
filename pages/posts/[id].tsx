@@ -1,5 +1,4 @@
 import { NextPageContext } from 'next';
-import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { getPost } from '../../utils/db';
 import Layout from '../../components/layout'
@@ -30,7 +29,6 @@ const ShowPost = (post) => {
 };
 
 const SinglePost = (props) => {
-  const router = useRouter();
   const post = JSON.parse(props.post);
   return (
     <>
