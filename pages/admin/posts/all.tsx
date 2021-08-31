@@ -34,7 +34,7 @@ const AllPosts = (props) => {
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Admin Management</h2>
-        <Link href={"/admin/posts/all"}>
+        <Link href={"/admin/posts/new"}>
           <a className="btn btn-primary mb-4 text-decoration-none">Create Post</a>
         </Link>
             {post.map((singlePost) => (
