@@ -61,7 +61,7 @@ const NewPost = () => {
                 {({ field, form }) => (
                   <div className="form-group mb-3">
                     <label htmlFor="content">Post Content</label>
-                    <textarea class="form-control" id="content" {...field} rows="5"/>
+                    <textarea class="form-control" id="content" placeholder="We do support markdown, try it" {...field} rows="5"/>
                     {form.errors.description}
                   </div>
                 )}
@@ -71,7 +71,7 @@ const NewPost = () => {
                 <Field id="category" name="category" placeholder="Category" className="form-control">
                 </Field>
               </div>
-              <div class="d-flex justify-content-center">
+              <div className="d-flex justify-content-center">
                 <Button type="submit">
                   Submit Post
                 </Button>

@@ -5,6 +5,7 @@ import { getPostsByCategory } from '../../utils/db';
 import Link from 'next/link'
 import Date from '../../components/date'
 import React from 'react';
+import { NextPageContext } from 'next';
 
 const ShowPostsByCategory = (props) => {
   const post = JSON.parse(props.post);
@@ -21,7 +22,7 @@ const ShowPostsByCategory = (props) => {
         </small>
         <br />
         <Link href={`/categories/${singlePost.category}`}>
-          <span class="badge rounded-pill bg-secondary"><a>{singlePost.category}</a></span>
+          <span className="badge rounded-pill bg-secondary"><a>{singlePost.category}</a></span>
         </Link>
       </li>
     )

@@ -21,7 +21,7 @@ const ShowPost = (post) => {
         </div>
         <ReactMarkdown>{post.content}</ReactMarkdown>
         <Link href={`/categories/${post.category}`}>
-          <span class="badge rounded-pill bg-secondary my-2"><a>{post.category}</a></span>
+          <span className="badge rounded-pill bg-secondary my-2"><a>{post.category}</a></span>
         </Link>
       </article>
     </Layout>

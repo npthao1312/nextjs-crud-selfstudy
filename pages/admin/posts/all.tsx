@@ -4,6 +4,7 @@ import Layout from '../../../components/layout'
 import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
 import Link from 'next/link'
+import Date from '../../../components/date'
 
 const AllPosts = (props) => {
   const post = JSON.parse(props.post);
@@ -20,7 +21,7 @@ const AllPosts = (props) => {
         </small>
         <br />
         <Link href={`/categories/${singlePost.category}`}>
-          <span class="badge rounded-pill bg-secondary my-2"><a>{singlePost.category}</a></span>
+          <span className="badge rounded-pill bg-secondary my-2"><a>{singlePost.category}</a></span>
         </Link>
       </li>
     )
