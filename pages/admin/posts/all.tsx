@@ -34,6 +34,9 @@ const AllPosts = (props) => {
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Admin Management</h2>
+        <Link href={"/admin/posts/all"}>
+          <a className="btn btn-primary mb-4 text-decoration-none">Create Post</a>
+        </Link>
             {post.map((singlePost) => (
               <ul className={utilStyles.list}>
                 {generatePostCard(singlePost)}
