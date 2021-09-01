@@ -5,45 +5,75 @@ import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
 import Link from 'next/link'
 import Date from '../../../components/date'
+import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
 
 const AllPosts = (props) => {
   const post = JSON.parse(props.post);
 
   const generatePostCard = (singlePost) => {
     return (
-      <li className={utilStyles.listItem} key={singlePost.id}>
-        <Link href={`/admin/posts/${singlePost.id}`}>
-          <a>{singlePost.title}</a>
-        </Link>
-        <br />
-        <small className={utilStyles.lightText}>
-          <Date dateString={singlePost.createdAt} />
-        </small>
-        <br />
-        <Link href={`/categories/${singlePost.category}`}>
-          <span className="badge rounded-pill bg-secondary my-2"><a>{singlePost.category}</a></span>
-        </Link>
-      </li>
+        <>
+          <td className="w-50">{singlePost.title}</td>
+          <td className="">{singlePost.category}</td>
+          <td className=""><Date dateString={singlePost.createdAt}/></td>
+          <td className="w-25">
+            <Link href={`/posts/${singlePost.id}`}>
+              <a className="btn btn-success mx-1 text-decoration-none">View</a>
+            </Link>
+            <Link href={`/admin/posts/${singlePost.id}`}>
+              <a className="btn btn-primary mx-1 text-decoration-none">Edit</a>
+            </Link>
+            <Link href={`/admin/posts/${singlePost.id}`}>
+              <a className="btn btn-danger mx-1 text-decoration-none">Delete</a>
+            </Link>
+          </td>
+        </>
     )
   }
 
   return (
-    <Layout admin>
+    <div className="container">
       <Head>
         <title>Manage Posts</title>
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Admin Management</h2>
-        <Link href={"/admin/posts/new"}>
-          <a className="btn btn-primary mb-4 text-decoration-none">Create Post</a>
-        </Link>
+        <div class="container">
+          <div class="row">
+            <div class="col-3">
+              <Link href={"/admin/posts/new"}>
+                <a className="btn btn-primary mb-4 text-decoration-none">Add new</a>
+              </Link>
+            </div>
+            <div class="col-9">
+              <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">Search</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Post" aria-describedby="addon-wrapping"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Table hover responsive>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
             {post.map((singlePost) => (
-              <ul className={utilStyles.list}>
+              <tr>
                 {generatePostCard(singlePost)}
-              </ul>
+              </tr>
             ))}
+          </tbody>
+        </Table>
       </section>
-    </Layout>
+    </div>
   );
 };
 
