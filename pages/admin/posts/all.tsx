@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 const AllPosts = (props) => {
   const post = JSON.parse(props.post);
   const { auth, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!auth && !loading) {
