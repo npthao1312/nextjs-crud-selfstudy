@@ -7,9 +7,18 @@ import Link from 'next/link'
 import Date from '../../../components/date'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
+import { useAuth } from '../../../lib/auth'
+import { useRouter } from 'next/router';
 
 const AllPosts = (props) => {
   const post = JSON.parse(props.post);
+  const { auth, loading } = useAuth();
+
+  useEffect(() => {
+    if (!auth && !loading) {
+      router.push(`/signin?next=/admin/posts/all`);
+    }
+  }, [auth, loading]);
 
   const generatePostCard = (singlePost) => {
     return (

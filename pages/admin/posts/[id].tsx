@@ -9,6 +9,7 @@ import utilStyles from '../../../styles/utils.module.css'
 import { Field, Form, Formik } from 'formik';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import { useAuth } from '../../../lib/auth'
 
 const EditPost = (post, onEdit, onDelete) => {
   const router = useRouter();
@@ -67,8 +68,15 @@ const EditPost = (post, onEdit, onDelete) => {
 };
 
 const EditDeletePost = (props) => {
+  const { auth, loading } = useAuth();
   const router = useRouter();
   const post = JSON.parse(props.post);
+
+  useEffect(() => {
+  if (!auth && !loading) {
+    router.push(`/signin?next=/admin/posts/${props.postId}`);
+    }
+  }, [auth, loading]);
 
   const onEdit = async (values, actions) => {
     try {

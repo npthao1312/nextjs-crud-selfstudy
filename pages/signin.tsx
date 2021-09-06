@@ -11,7 +11,7 @@ const signin = () => {
   const router = useRouter();
 
   if (auth) {
-    router.push((router.query.next as string) || '/');
+    router.push((router.query.next as string) || '/admin/posts/all');
   }
 
   return (

@@ -7,9 +7,17 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Layout from '../../../components/layout'
 import Head from 'next/head'
+import { useAuth } from '../../../lib/auth'
 
 const NewPost = () => {
+  const { auth, loading } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!auth && !loading) {
+      router.push('/signin?next=/admin/posts/new');
+    }
+  }, [auth, loading]);
 
   const initialValues = {
     title: '',
