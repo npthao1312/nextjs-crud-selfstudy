@@ -1,26 +1,38 @@
 import axios from 'axios';
 
-export const addPostApi = async (values) => {
+export const addPostApi = async (auth, values) => {
   try {
-    const resp = await axios.post('/api/posts', values);
+    const header = {
+      'Content-Type': 'application/json',
+      token: auth.token,
+    };
+    const resp = await axios.post('/api/posts', values, { headers: header });
     return resp;
   } catch (error) {
     throw error;
   }
 };
 
-export const editPostApi = async (postId, values) => {
+export const editPostApi = async (auth, postId, values) => {
   try {
-    const resp = await axios.put(`/api/posts/${postId}`, values);
+    const header = {
+      'Content-Type': 'application/json',
+      token: auth.token,
+    };
+    const resp = await axios.put(`/api/posts/${postId}`, values, { headers: header });
     return resp;
   } catch (error) {
     throw error;
   }
 };
 
-export const deletePostApi = async (postId) => {
+export const deletePostApi = async (auth, postId) => {
   try {
-    const resp = await axios.delete(`/api/posts/${postId}`);
+    const header = {
+      'Content-Type': 'application/json',
+      token: auth.token,
+    };
+    const resp = await axios.delete(`/api/posts/${postId}`, { headers: header });
     return resp;
   } catch (error) {
     throw error;

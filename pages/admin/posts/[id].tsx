@@ -2,7 +2,7 @@ import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { getPost, updatePost, deletePost } from '../../../utils/db';
-import { editPostApi } from '../../../utils/service';
+import { editPostApi, deletePostApi } from '../../../utils/service';
 import Layout from '../../../components/layout'
 import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
@@ -41,7 +41,7 @@ const EditPost = (post, onEdit, onDelete) => {
                 {({ field, form }) => (
                   <div className="form-group mb-3">
                     <label htmlFor="content">Post Content</label>
-                    <textarea class="form-control" id="content" {...field} placeholder={post.content} rows="5" />
+                    <textarea className="form-control" id="content" {...field} placeholder={post.content} rows="5" />
                     {form.errors.description}
                   </div>
                 )}
@@ -84,7 +84,7 @@ const EditDeletePost = (props) => {
         ...values,
         updatedAt: new Date(),
       };
-      const resp = await updatePost(props.postId, values);
+      const resp = await editPostApi(auth, props.postId, values);
       console.log(resp);
       router.push("/");
     } catch (error) {
@@ -96,7 +96,7 @@ const EditDeletePost = (props) => {
 
   const onDelete = async () => {
     try {
-      const resp = await deletePost(props.postId);
+      const resp = await deletePostApi(auth, props.postId);
       console.log(resp);
       router.push("/");
     } catch (error) {

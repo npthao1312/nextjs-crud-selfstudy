@@ -38,7 +38,7 @@ const NewPost = () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-      await addPostApi(values);
+      await addPostApi(auth, values);
       router.push('/');
     } catch (error) {
       console.log('error', error);
@@ -80,7 +80,10 @@ const NewPost = () => {
                 </Field>
               </div>
               <div className="d-flex justify-content-center">
-                <Button type="submit">
+                <Button
+                  type="submit"
+                  isLoading={props.isSubmitting}
+                >
                   Submit Post
                 </Button>
               </div>
