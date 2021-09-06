@@ -3,13 +3,15 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import * as yup from 'yup';
 import { addPostApi } from '../../../utils/service';
+import { getAllCategories } from '../../../utils/db';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Layout from '../../../components/layout'
 import Head from 'next/head'
 import { useAuth } from '../../../lib/auth'
 
-const NewPost = () => {
+const NewPost = (props) => {
+  const category = JSON.parse(props.category);
   const { auth, loading } = useAuth();
   const router = useRouter();
 
@@ -69,23 +71,30 @@ const NewPost = () => {
                 {({ field, form }) => (
                   <div className="form-group mb-3">
                     <label htmlFor="content">Post Content</label>
-                    <textarea class="form-control" id="content" placeholder="We do support markdown, try it" {...field} rows="5"/>
+                    <textarea className="form-control" id="content" placeholder="We do support markdown, try it" {...field} rows="5"/>
                     {form.errors.description}
                   </div>
                 )}
               </Field>
-              <div className="form-group mb-3">
-                <label htmlFor="category">Post Category</label>
-                <Field id="category" name="category" placeholder="Category" className="form-control">
-                </Field>
-              </div>
+              <Field name="category">
+                {({ field }) => (
+                  <div className="input-group mb-3">
+                    <label className="input-group-text" htmlFor="category">Category</label>
+                    <select className="form-select" id="category">
+                      {category.map(({id, content}) => (
+                          <option key={id} value={content} {...field}>{content}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </Field>
               <div className="d-flex justify-content-center">
-                <Button
-                  type="submit"
-                  isLoading={props.isSubmitting}
-                >
-                  Submit Post
-                </Button>
+              <Button
+                isLoading={props.isSubmitting}
+                type="submit"
+              >
+                Submit
+              </Button>
               </div>
             </Form>
           )}
@@ -94,5 +103,13 @@ const NewPost = () => {
     </Layout>
   );
 };
+
+export async function getServerSideProps(_context) {
+  const category = await getAllCategories();
+  const data = category.map((singleCategory: any) => {
+    return { ...singleCategory};
+  });
+  return { props: { category: JSON.stringify(data) } };
+}
 
 export default NewPost;

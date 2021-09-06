@@ -9,23 +9,6 @@ import React from 'react';
 const Home = (props) => {
   const post = JSON.parse(props.post);
 
-  const generatePostCard = (singlePost) => {
-    return (
-      <li className={utilStyles.listItem} key={singlePost.id}>
-        <Link href={`/posts/${singlePost.id}`}>
-          <a>{singlePost.title}</a>
-        </Link>
-        <br />
-        <small className={utilStyles.lightText}>
-          <Date dateString={singlePost.createdAt} />
-        </small>
-        <br />
-        <Link href={`/categories/${singlePost.category}`}>
-          <span className="badge rounded-pill bg-secondary"><a>{singlePost.category}</a></span>          
-        </Link>
-      </li>
-    )
-  }
   return (
     <Layout home>
       <Head>
@@ -38,11 +21,23 @@ const Home = (props) => {
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
-            {post.map((singlePost) => (
-              <ul className={utilStyles.list}>
-                {generatePostCard(singlePost)}
-              </ul>
-            ))}
+        <ul className={utilStyles.list}>
+          {post.map(({id, title, createdAt, category}) => (
+            <li className={utilStyles.listItem} key={id}>
+              <Link href={`/posts/${id}`}>
+                <a>{title}</a>
+              </Link>
+              <br />
+              <small className={utilStyles.lightText}>
+                <Date dateString={createdAt} />
+              </small>
+              <br />
+              <Link href={`/categories/${category}`}>
+                <span className="badge rounded-pill bg-secondary"><a>{category}</a></span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
     </Layout>
   )

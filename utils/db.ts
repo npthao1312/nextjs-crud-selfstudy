@@ -62,3 +62,9 @@ export const addCategory = async (id, data) => {
   const response = await firebase.firestore().collection('categories').doc(String(id)).set(data);
   return response;
 };
+
+export const getAllCategories = async () => {
+  const snapshot = await firebase.firestore().collection('categories').orderBy('createdAt', 'desc').get();
+  const category = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return category;
+};
