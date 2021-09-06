@@ -1,7 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/global.css'
-import { AppProps } from 'next/app'
+import { AppProps } from 'next/app';
+import { AuthProvider } from '../lib/auth';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function App({ Component, pageProps }: AppProps) {
+  return (
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+  );
 }
+
+export default App;

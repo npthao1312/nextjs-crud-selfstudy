@@ -33,29 +33,12 @@ const AllPosts = (props) => {
   }
 
   return (
-    <div className="container">
+    <>
       <Head>
         <title>Manage Posts</title>
       </Head>
       <Navbar />
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <div className="container">
-          <div className="row">
-            <div className="col-3">
-              <Link href={"/admin/posts/new"}>
-                <a className="btn btn-primary mb-4 text-decoration-none">Add new</a>
-              </Link>
-            </div>
-            <div class="col-9">
-              <div class="input-group flex-nowrap">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="addon-wrapping">Search</span>
-                </div>
-                <input type="text" class="form-control" aria-label="Post" aria-describedby="addon-wrapping"/>
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px} container`}>
         <Table hover responsive>
           <thead>
             <tr>
@@ -67,14 +50,14 @@ const AllPosts = (props) => {
           </thead>
           <tbody>
             {post.map((singlePost) => (
-              <tr>
+              <tr key={singlePost.id}>
                 {generatePostCard(singlePost)}
               </tr>
             ))}
           </tbody>
         </Table>
       </section>
-    </div>
+    </>
   );
 };
 
