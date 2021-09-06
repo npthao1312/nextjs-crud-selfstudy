@@ -11,7 +11,7 @@ import Head from 'next/head'
 import { useAuth } from '../../../lib/auth'
 
 const NewPost = (props) => {
-  const category = JSON.parse(props.category);
+  const categories = JSON.parse(props.category);
   const { auth, loading } = useAuth();
   const router = useRouter();
 
@@ -28,9 +28,9 @@ const NewPost = (props) => {
   };
 
   const validationSchema = yup.object().shape({
-    title: yup.string().required('Required'),
-    content: yup.string().required('Required'),
-    category: yup.string().required('Required'),
+    title: yup.string().required('Title is required'),
+    content: yup.string().required('Content is required'),
+    category: yup.string().required('Category is required'),
   });
 
   const submitHandler = async (values, actions) => {
@@ -40,6 +40,7 @@ const NewPost = (props) => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
+      console.log(values);
       await addPostApi(auth, values);
       router.push('/');
     } catch (error) {
@@ -76,21 +77,16 @@ const NewPost = (props) => {
                   </div>
                 )}
               </Field>
-              <Field name="category">
-                {({ field }) => (
-                  <div className="input-group mb-3">
-                    <label className="input-group-text" htmlFor="category">Category</label>
-                    <select className="form-select" id="category">
-                      {category.map(({id, content}) => (
-                          <option key={id} value={content} {...field}>{content}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-              </Field>
+              <div className="input-group mb-3">
+                <label className="input-group-text" htmlFor="category">Category</label>
+                <Field name="category" as="select" className="form-select" id="category">
+                  {categories.map(({id, content}) => (
+                      <option key={id} value={id}>{content}</option>
+                  ))}
+                </Field>
+              </div>
               <div className="d-flex justify-content-center">
               <Button
-                isLoading={props.isSubmitting}
                 type="submit"
               >
                 Submit
