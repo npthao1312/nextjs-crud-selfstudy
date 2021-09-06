@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { addCategory as addCategoryFb } from '../../utils/db';
+import { addCategory as addCategoryFb } from '../../../utils/db';
+import { auth } from '../../../lib/firebase-admin';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
@@ -14,8 +15,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 const addCategory = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const categoryData = { ...req.body };
-    await addCategoryFb(categoryData);
+    const user = await auth.verifyIdToken(req.headers.token as string);
+    const categoryData = { ...req.body, userId: user.uid };
+    const categoryId = req.body.content.toString().toLowerCase();
+    await addCategoryFb(categoryId, categoryData);
     return res
       .status(200)
       .json({ status: true, message: 'Category added successfully...' });

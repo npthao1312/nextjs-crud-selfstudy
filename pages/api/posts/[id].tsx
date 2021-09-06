@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { auth } from '../../../lib/firebase-admin';
-import { updatePost as updatePostFb } from '../../../utils/db';
-import { deletePost as deletePostFb } from '../../../utils/db';
+import { updatePost as updatePostFb, deletePost as deletePostFb } from '../../../utils/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {

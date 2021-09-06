@@ -78,7 +78,7 @@ export default function Layout({
       )}
       {admin && (
         <div className={styles.backToHome}>
-          <Link href="/admin/posts/all">
+          <Link href="/admin">
             <a>← Back to Admin Board</a>
           </Link>
         </div>

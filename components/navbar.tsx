@@ -7,7 +7,7 @@ const Navbar: React.FC<{}> = () => {
   const { auth, signOut } = useAuth();
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-2">
       <div className="container"> <button className="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -18,7 +18,8 @@ const Navbar: React.FC<{}> = () => {
           { auth ? (
             <ul className="navbar-nav">
               <li className="nav-item"> <a className="nav-link text-white text-decoration-none" onClick={() => router.push('/admin/posts/new')}>New Post</a> </li>
-              <li className="nav-item"> <a className="nav-link text-white text-decoration-none" onClick={() => router.push('/admin/posts/new')}>New Category</a> </li>
+              <li className="nav-item"> <a className="nav-link text-white text-decoration-none" onClick={() => router.push('/admin/categories/all')}>All Categories</a> </li>
+              <li className="nav-item"> <a className="nav-link text-white text-decoration-none" onClick={() => router.push('/admin/categories/new')}>New Category</a> </li>
               <li className="nav-item"> <a className="nav-link text-white text-decoration-none" onClick={() => signOut()}>Logout</a> </li>
             </ul>
             ) : (

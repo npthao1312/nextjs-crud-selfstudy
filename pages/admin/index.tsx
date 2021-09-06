@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { getAllPosts, deletePost } from '../../../utils/db';
-import Navbar from '../../../components/navbar'
+import { getAllPosts, deletePost } from '../../utils/db';
+import Navbar from '../../components/navbar'
 import Head from 'next/head'
-import utilStyles from '../../../styles/utils.module.css'
+import utilStyles from '../../styles/utils.module.css'
 import Link from 'next/link'
-import Date from '../../../components/date'
+import Date from '../../components/date'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
-import { useAuth } from '../../../lib/auth'
+import { useAuth } from '../../lib/auth'
 import { useRouter } from 'next/router';
 
 const AllPosts = (props) => {
@@ -17,7 +17,7 @@ const AllPosts = (props) => {
 
   useEffect(() => {
     if (!auth && !loading) {
-      router.push(`/signin?next=/admin/posts/all`);
+      router.push(`/signin?next=/admin`);
     }
   }, [auth, loading]);
 

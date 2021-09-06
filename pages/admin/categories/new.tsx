@@ -7,9 +7,17 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Layout from '../../../components/layout'
 import Head from 'next/head'
+import { useAuth } from '../../../lib/auth'
 
 const NewCategory = () => {
   const router = useRouter();
+  const { auth, loading } = useAuth();
+
+  useEffect(() => {
+    if (!auth && !loading) {
+      router.push('/signin?next=/admin/categories/new');
+    }
+  }, [auth, loading]);
 
   const initialValues = {
     content: '',
@@ -26,8 +34,8 @@ const NewCategory = () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-      await addCategoryApi(values);
-      router.push('/');
+      await addCategoryApi(auth, values);
+      router.push('/admin');
     } catch (error) {
       console.log('error', error);
     } finally {
@@ -36,7 +44,7 @@ const NewCategory = () => {
   };
 
   return (
-    <Layout>
+    <Layout admin>
       <Head>
         <title>Create Category</title>
       </Head>
@@ -51,15 +59,15 @@ const NewCategory = () => {
               <Field name="content">
                 {({ field, form }) => (
                   <div className="form-group mb-3">
-                    <label htmlFor="content">Category Content</label>
-                    <textarea className="form-control" id="content" {...field} rows="5"/>
+                    <label htmlFor="content">Category</label>
+                    <input className="form-control" id="content" {...field}/>
                     {form.errors.description}
                   </div>
                 )}
               </Field>
               <div className="d-flex justify-content-center">
                 <Button type="submit">
-                  Submit Category
+                  Submit
                 </Button>
               </div>
             </Form>

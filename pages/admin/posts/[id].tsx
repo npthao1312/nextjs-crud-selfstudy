@@ -2,7 +2,7 @@ import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { getPost, updatePost, deletePost } from '../../../utils/db';
-import { editPostApi, deletePostApi } from '../../../utils/service';
+import { updatePostApi, deletePostApi } from '../../../utils/service';
 import Layout from '../../../components/layout'
 import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
@@ -11,7 +11,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { useAuth } from '../../../lib/auth'
 
-const EditPost = (post, onEdit, onDelete) => {
+const EditPost = (post, onUpdate, onDelete) => {
   const router = useRouter();
 
   const initialValues = {
@@ -23,12 +23,12 @@ const EditPost = (post, onEdit, onDelete) => {
   return (
     <Layout admin>
       <Head>
-        <title>Edit {post.title}</title>
+        <title>Update {post.title}</title>
       </Head>
       <Container>
         <Formik
           initialValues={initialValues}
-          onSubmit={onEdit}
+          onSubmit={onUpdate}
         >
           {(props) => (
             <Form>
@@ -53,10 +53,10 @@ const EditPost = (post, onEdit, onDelete) => {
               </div>
               <div className="d-flex justify-content-center mt-5">
                 <Button type="submit">
-                  Edit Post
+                  Update
                 </Button>
                 <Button className="ms-3" type="button" onClick={onDelete}  variant="danger">
-                  Delete Post
+                  Delete
                 </Button>
               </div>
             </Form>
@@ -78,13 +78,13 @@ const EditDeletePost = (props) => {
     }
   }, [auth, loading]);
 
-  const onEdit = async (values, actions) => {
+  const onUpdate = async (values, actions) => {
     try {
       values = {
         ...values,
         updatedAt: new Date(),
       };
-      const resp = await editPostApi(auth, props.postId, values);
+      const resp = await updatePost(props.postId, values);
       console.log(resp);
       router.push("/");
     } catch (error) {
@@ -96,7 +96,7 @@ const EditDeletePost = (props) => {
 
   const onDelete = async () => {
     try {
-      const resp = await deletePostApi(auth, props.postId);
+      const resp = await deletePost(props.postId);
       console.log(resp);
       router.push("/");
     } catch (error) {
@@ -106,7 +106,7 @@ const EditDeletePost = (props) => {
 
   return (
     <>
-      {post && EditPost(post, onEdit, onDelete)}
+      {post && EditPost(post, onUpdate, onDelete)}
     </>
   );
 };

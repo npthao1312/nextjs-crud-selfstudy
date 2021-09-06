@@ -13,7 +13,7 @@ export const addPostApi = async (auth, values) => {
   }
 };
 
-export const editPostApi = async (auth, postId, values) => {
+export const updatePostApi = async (auth, postId, values) => {
   try {
     const header = {
       'Content-Type': 'application/json',
@@ -39,17 +39,14 @@ export const deletePostApi = async (auth, postId) => {
   }
 };
 
-export const addCategoryApi = async (values) => {
+export const addCategoryApi = async (auth, values) => {
   try {
-    const categoryLowerCase = values.toLowerCase();
+    const header = {
+      'Content-Type': 'application/json',
+      token: auth.token,
+    };
     const resp = await axios.post(
-      `/api/category`,
-      {
-        id: categoryLowerCase,
-        content: values,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
+      '/api/categories', values, { headers: header }
     );
     return resp;
   } catch (error) {

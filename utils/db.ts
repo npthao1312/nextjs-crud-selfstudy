@@ -58,7 +58,7 @@ export const updatePost = async (postId, updatedPost) => {
   return updatedPost;
 };
 
-export const addCategory = async (data) => {
-  const response = await firebase.firestore().collection('categories').add(data);
+export const addCategory = async (id, data) => {
+  const response = await firebase.firestore().collection('categories').doc(String(id)).set(data);
   return response;
 };
