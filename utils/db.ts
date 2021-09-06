@@ -1,5 +1,14 @@
 import firebase from '../lib/firebase';
 
+export const addUser = async (authUser: any) => {
+  const resp = await firebase
+    .firestore()
+    .collection('users')
+    .doc(authUser.uid as string)
+    .set({ ...authUser }, { merge: true });
+  return resp;
+};
+
 export const getAllPosts = async () => {
   const snapshot = await firebase.firestore().collection('posts').orderBy('createdAt', 'desc').get();
   const post = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

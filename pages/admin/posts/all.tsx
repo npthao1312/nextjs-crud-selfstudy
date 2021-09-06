@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { getAllPosts, deletePost } from '../../../utils/db';
-import Layout from '../../../components/layout'
+import Navbar from '../../../components/navbar'
 import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
 import Link from 'next/link'
@@ -37,10 +37,11 @@ const AllPosts = (props) => {
       <Head>
         <title>Manage Posts</title>
       </Head>
+      <Navbar />
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <div class="container">
-          <div class="row">
-            <div class="col-3">
+        <div className="container">
+          <div className="row">
+            <div className="col-3">
               <Link href={"/admin/posts/new"}>
                 <a className="btn btn-primary mb-4 text-decoration-none">Add new</a>
               </Link>
