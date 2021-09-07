@@ -68,3 +68,31 @@ export const getAllCategories = async () => {
   const category = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   return category;
 };
+
+export const deleteCategory = async (categoryId) => {
+  const snapshot = await firebase
+    .firestore()
+    .collection('categories')
+    .doc(String(categoryId))
+    .delete();
+  return categoryId;
+};
+
+export const getCategory = async (categoryId) => {
+  const snapshot = await firebase
+    .firestore()
+    .collection('categories')
+    .doc(String(categoryId))
+    .get();
+  const categoryData = snapshot.exists ? JSON.stringify(snapshot.data()) : null;
+  return categoryData;
+};
+
+export const updateCategory = async (categoryId, updatedCategory) => {
+  const snapshot = await firebase
+    .firestore()
+    .collection('categories')
+    .doc(String(categoryId))
+    .update(updatedCategory);
+  return updatedCategory;
+};

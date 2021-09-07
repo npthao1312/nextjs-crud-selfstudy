@@ -21,26 +21,15 @@ const AllPosts = (props) => {
     }
   }, [auth, loading]);
 
-  const generatePostCard = (singlePost) => {
-    return (
-        <>
-          <td className="w-50">{singlePost.title}</td>
-          <td className="">{singlePost.category}</td>
-          <td className=""><Date dateString={singlePost.createdAt}/></td>
-          <td className="w-25">
-            <Link href={`/posts/${singlePost.id}`}>
-              <a className="btn btn-success mx-1 text-decoration-none">View</a>
-            </Link>
-            <Link href={`/admin/posts/${singlePost.id}`}>
-              <a className="btn btn-primary mx-1 text-decoration-none">Edit</a>
-            </Link>
-            <Link href={`/admin/posts/${singlePost.id}`}>
-              <a className="btn btn-danger mx-1 text-decoration-none">Delete</a>
-            </Link>
-          </td>
-        </>
-    )
-  }
+  const onDelete = async (postId) => {
+    try {
+      const resp = await deletePost(postId);
+      console.log(resp);
+      router.push("/admin");
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <>
@@ -71,9 +60,9 @@ const AllPosts = (props) => {
                   <Link href={`/admin/posts/${id}`}>
                     <a className="btn btn-primary mx-1 text-decoration-none">Edit</a>
                   </Link>
-                  <Link href={`/admin/posts/${id}`}>
-                    <a className="btn btn-danger mx-1 text-decoration-none">Delete</a>
-                  </Link>
+                  <Button className="btn btn-danger mx-1 text-decoration-none" onClick={() => onDelete(id)} >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}

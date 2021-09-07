@@ -66,7 +66,11 @@ const NewCategory = () => {
                 )}
               </Field>
               <div className="d-flex justify-content-center">
-                <Button type="submit">
+                <Button
+                  type="submit"
+                  isLoading={props.isSubmitting}
+                  disabled={!(props.isValid && props.dirty)}
+                >
                   Submit
                 </Button>
               </div>

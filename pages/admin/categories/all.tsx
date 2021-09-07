@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getAllCategories } from '../../../utils/db';
+import { getAllCategories, deleteCategory } from '../../../utils/db';
 import Navbar from '../../../components/navbar'
 import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
@@ -20,6 +20,16 @@ const AllCategories = (props) => {
       router.push(`/signin?next=/admin/categories/all`);
     }
   }, [auth, loading]);
+
+  const onDelete = async (category) => {
+    try {
+      const resp = await deleteCategory(category);
+      console.log(resp);
+      router.push("/admin");
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <>
@@ -48,9 +58,9 @@ const AllCategories = (props) => {
                   <Link href={`/admin/categories/${id}`}>
                     <a className="btn btn-primary mx-1 text-decoration-none">Edit</a>
                   </Link>
-                  <Link href={`/admin/categories/${id}`}>
-                    <a className="btn btn-danger mx-1 text-decoration-none">Delete</a>
-                  </Link>
+                  <Button className="btn btn-danger mx-1 text-decoration-none" onClick={() => onDelete(id)}>
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}

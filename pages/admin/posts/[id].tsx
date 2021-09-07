@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getPost, updatePost, deletePost } from '../../../utils/db';
+import { getPost, updatePost, deletePost, getAllCategories} from '../../../utils/db';
 import { updatePostApi, deletePostApi } from '../../../utils/service';
 import Layout from '../../../components/layout'
 import Head from 'next/head'
@@ -11,7 +11,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { useAuth } from '../../../lib/auth'
 
-const EditPost = (post, onUpdate, onDelete) => {
+const EditPost = (post, categories, onUpdate, onDelete) => {
   const router = useRouter();
 
   const initialValues = {
@@ -46,16 +46,19 @@ const EditPost = (post, onUpdate, onDelete) => {
                   </div>
                 )}
               </Field>
-              <div className="form-group mb-3">
-                <label htmlFor="category">Post Category</label>
-                <Field id="category" name="category" placeholder={post.category} className="form-control">
+              <div className="input-group mb-3">
+                <label className="input-group-text" htmlFor="category">Category</label>
+                <Field name="category" as="select" className="form-select" id="category">
+                  {categories.map(({id, content}) => (
+                      <option key={id} value={id}>{content}</option>
+                  ))}
                 </Field>
               </div>
               <div className="d-flex justify-content-center mt-5">
-                <Button type="submit">
+                <Button type="submit" isLoading={props.isSubmitting}>
                   Update
                 </Button>
-                <Button className="ms-3" type="button" onClick={onDelete}  variant="danger">
+                <Button className="ms-3" type="button" onClick={onDelete} variant="danger">
                   Delete
                 </Button>
               </div>
@@ -71,6 +74,7 @@ const EditDeletePost = (props) => {
   const { auth, loading } = useAuth();
   const router = useRouter();
   const post = JSON.parse(props.post);
+  const categories = JSON.parse(props.category);
 
   useEffect(() => {
   if (!auth && !loading) {
@@ -85,7 +89,6 @@ const EditDeletePost = (props) => {
         updatedAt: new Date(),
       };
       const resp = await updatePost(props.postId, values);
-      console.log(resp);
       router.push("/");
     } catch (error) {
       console.log('error', error);
@@ -106,15 +109,23 @@ const EditDeletePost = (props) => {
 
   return (
     <>
-      {post && EditPost(post, onUpdate, onDelete)}
+      {post && EditPost(post, categories, onUpdate, onDelete)}
     </>
   );
 };
 
 export async function getServerSideProps(context: NextPageContext) {
   const postId = context.query.id;
-  const post = await getPost(postId);
-  return { props: { post: post, postId } };
+  const [post, category] = await Promise.all([
+    getPost(postId),
+    getAllCategories()
+  ])
+  const data = category.map((singleCategory: any) => {
+    return { ...singleCategory};
+  });
+  console.log(category);
+
+  return { props: { category: JSON.stringify(data), post: post, postId } };
 }
 
 export default EditDeletePost;

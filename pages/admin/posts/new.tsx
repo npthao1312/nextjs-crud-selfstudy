@@ -88,6 +88,8 @@ const NewPost = (props) => {
               <div className="d-flex justify-content-center">
               <Button
                 type="submit"
+                isLoading={props.isSubmitting}
+                disabled={!(props.isValid && props.dirty)}
               >
                 Submit
               </Button>
