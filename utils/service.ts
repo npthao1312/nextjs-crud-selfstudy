@@ -39,6 +39,24 @@ export const deletePostApi = async (auth, postId) => {
   }
 };
 
+export const getAllPostsApi = async () => {
+  try {
+    const resp = await axios.get('/api/posts');
+    return resp;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllCategoriesApi = async () => {
+  try {
+    const resp = await axios.get('/api/categories');
+    return resp;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getPostApi = async (postId) => {
   try {
     const resp = await axios.get(`/api/posts/${postId}`);

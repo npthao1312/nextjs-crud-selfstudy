@@ -7,7 +7,7 @@ const Navbar: React.FC<{}> = () => {
   const { auth, signOut } = useAuth();
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-5">
+    <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-3">
       <div className="container"> <button className="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar">
           <span className="navbar-toggler-icon"></span>
         </button>

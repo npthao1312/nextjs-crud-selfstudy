@@ -100,7 +100,6 @@ const EditDeletePost = (props) => {
   const onDelete = async () => {
     try {
       const resp = await deletePostApi(auth, props.postId);
-      console.log(resp);
       router.push("/");
     } catch (error) {
       console.log('error', error);

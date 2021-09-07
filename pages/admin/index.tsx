@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { getAllPosts, deletePost } from '../../utils/db';
+import { getAllPosts } from '../../utils/db';
+import { deletePostApi } from '../../utils/service';
 import Navbar from '../../components/navbar'
 import Head from 'next/head'
 import utilStyles from '../../styles/utils.module.css'
@@ -23,8 +24,7 @@ const AllPosts = (props) => {
 
   const onDelete = async (postId) => {
     try {
-      const resp = await deletePost(postId);
-      console.log(resp);
+      const resp = await deletePostApi(auth, postId);
       router.push("/admin");
     } catch (error) {
       console.log('error', error);
@@ -38,6 +38,21 @@ const AllPosts = (props) => {
       </Head>
       <Navbar />
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px} container`}>
+        <div className="container my-4">
+          <div className="row">
+            <div className="col-lg-3">
+              <Link href={"/admin/posts/new"}>
+                <a className="btn btn-success mx-1 text-decoration-none">New Post</a>
+              </Link>
+            </div>
+            <div className="col-lg-7">
+              <form className="d-flex">
+                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                <button className="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </div>
         <Table hover responsive bordered>
           <thead>
             <tr>
