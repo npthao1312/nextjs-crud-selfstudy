@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getPost, updatePost, deletePost, getAllCategories} from '../../../utils/db';
+import { getPost, getAllCategories} from '../../../utils/db';
 import { updatePostApi, deletePostApi } from '../../../utils/service';
 import Layout from '../../../components/layout'
 import Head from 'next/head'
@@ -88,7 +88,7 @@ const EditDeletePost = (props) => {
         ...values,
         updatedAt: new Date(),
       };
-      const resp = await updatePost(props.postId, values);
+      const resp = await updatePostApi(auth, props.postId, values);
       router.push("/");
     } catch (error) {
       console.log('error', error);
@@ -99,7 +99,7 @@ const EditDeletePost = (props) => {
 
   const onDelete = async () => {
     try {
-      const resp = await deletePost(props.postId);
+      const resp = await deletePostApi(auth, props.postId);
       console.log(resp);
       router.push("/");
     } catch (error) {

@@ -1,8 +1,8 @@
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { getCategory, updateCategory, deleteCategory } from '../../../utils/db';
-// import { updateCategoryApi, deleteCategoryApi } from '../../../utils/service';
+import { getCategory } from '../../../utils/db';
+import { getCategoryApi, updateCategoryApi, deleteCategoryApi } from '../../../utils/service';
 import Layout from '../../../components/layout'
 import Head from 'next/head'
 import utilStyles from '../../../styles/utils.module.css'
@@ -68,7 +68,7 @@ const EditDeleteCategory = (props) => {
         ...values,
         updatedAt: new Date(),
       };
-      const resp = await updateCategory(props.categoryId, values);
+      const resp = await updateCategoryApi(auth, props.categoryId, values);
       console.log(resp);
       router.push("/admin/categories/all");
     } catch (error) {
@@ -80,7 +80,7 @@ const EditDeleteCategory = (props) => {
 
   const onDelete = async () => {
     try {
-      const resp = await deleteCategory(props.categoryId);
+      const resp = await deleteCategoryApi(auth, props.categoryId);
       console.log(resp);
       router.push("/admin");
     } catch (error) {

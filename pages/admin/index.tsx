@@ -38,7 +38,7 @@ const AllPosts = (props) => {
       </Head>
       <Navbar />
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px} container`}>
-        <Table hover responsive>
+        <Table hover responsive bordered>
           <thead>
             <tr>
               <th>Title</th>

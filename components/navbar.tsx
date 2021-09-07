@@ -7,11 +7,11 @@ const Navbar: React.FC<{}> = () => {
   const { auth, signOut } = useAuth();
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-2">
+    <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-5">
       <div className="container"> <button className="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbar"> <a className="navbar-brand d-none d-md-block text-decoration-none" onClick={() => router.push('/admin/posts/all')}>
+        <div className="collapse navbar-collapse" id="navbar"> <a className="navbar-brand d-none d-md-block text-decoration-none" onClick={() => router.push('/admin')}>
             <b>Admin</b>
           </a>
           <ul className="navbar-nav mx-auto" ></ul>

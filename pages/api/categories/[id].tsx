@@ -1,17 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { auth } from '../../../lib/firebase-admin';
-import { getPost as getPostFb, updatePost as updatePostFb, deletePost as deletePostFb } from '../../../utils/db';
+import { getCategory as getCategoryFb, updateCategory as updateCategoryFb, deleteCategory as deleteCategoryFb } from '../../../utils/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'GET':
-      await getPost(req, res);
+      await getCategory(req, res);
       break;
     case 'PUT':
-      await updatePost(req, res);
+      await updateCategory(req, res);
       break;
     case 'DELETE':
-      await deletePost(req, res);
+      await deleteCategory(req, res);
       break;
     default:
       res.status(405).json({ status: false, message: 'Method Not found' });
@@ -19,9 +19,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const getPost = async (req: NextApiRequest, res: NextApiResponse) => {
+const getCategory = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const post = await getPostFb(req.query.id);
+    const post = await getCategoryFb(req.query.id);
     return res
       .status(200)
       .json(post);
@@ -32,14 +32,14 @@ const getPost = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const updatePost = async (req: NextApiRequest, res: NextApiResponse) => {
+const updateCategory = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const user = await auth.verifyIdToken(req.headers.token as string);
     const postData = { ...req.body, userId: user.uid };
-    await updatePostFb(req.query.id, postData);
+    await updateCategoryFb(req.query.id, postData);
     return res
       .status(200)
-      .json({ status: true, message: 'Post updated successfully...' });
+      .json({ status: true, message: 'Category updated successfully...' });
   } catch (error) {
     return res
       .status(500)
@@ -47,12 +47,12 @@ const updatePost = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const deletePost = async (req: NextApiRequest, res: NextApiResponse) => {
+const deleteCategory = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    await deletePostFb(req.query.id);
+    await deleteCategoryFb(req.query.id);
     return res
       .status(200)
-      .json({ status: true, message: 'Post deleted successfully...' });
+      .json({ status: true, message: 'Category deleted successfully...' });
   } catch (error) {
     return res
       .status(500)
